@@ -1,0 +1,63 @@
+.home-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #2563eb, #1e3a8a);
+  font-family: Arial, sans-serif;
+}
+
+.home-card {
+  background: white;
+  padding: 50px;
+  border-radius: 16px;
+  text-align: center;
+  width: 400px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.home-card h1 {
+  margin-bottom: 10px;
+  color: #1e293b;
+}
+
+.home-card p {
+  margin-bottom: 30px;
+  color: #475569;
+}
+
+.home-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.login-btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  background: #1e293b;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  background: #0f172a;
+}
+
+.signup-btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.signup-btn:hover {
+  background: #1d4ed8;
+}

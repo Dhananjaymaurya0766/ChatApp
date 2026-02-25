@@ -1,0 +1,125 @@
+.telegram-container {
+  display: flex;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 300px;
+  background: #17212b;
+  color: white;
+  overflow-y: auto;
+}
+
+.sidebar-header {
+  padding: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  background: #232f3d;
+}
+
+.chat-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #1e2a38;
+}
+
+.chat-item:hover {
+  background: #1f2e3d;
+}
+
+.chat-item.active {
+  background: #2b5278;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  background: #3b82f6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.chat-name {
+  font-weight: bold;
+}
+
+.chat-email {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* Chat Section */
+.chat-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #e5ddd5;
+}
+
+.chat-header {
+  padding: 15px;
+  background: #ffffff;
+  border-bottom: 1px solid #ccc;
+  font-weight: bold;
+}
+
+/* Messages */
+.messages-area {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  padding: 8px 12px;
+  border-radius: 15px;
+  margin-bottom: 10px;
+  max-width: 60%;
+  font-size: 14px;
+}
+
+.sent {
+  align-self: flex-end;
+  background: #dcf8c6;
+}
+
+.received {
+  align-self: flex-start;
+  background: white;
+}
+
+/* Input */
+.input-area {
+  display: flex;
+  padding: 10px;
+  background: white;
+  border-top: 1px solid #ccc;
+}
+
+.input-area input {
+  flex: 1;
+  padding: 8px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.input-area button {
+  margin-left: 10px;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 20px;
+  background: #2b5278;
+  color: white;
+  cursor: pointer;
+}
