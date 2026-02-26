@@ -1,7 +1,8 @@
 import "./Chat.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import { io } from "socket.io-client";
 
 function Chat() {
   const [users, setUsers] = useState([]);
@@ -9,26 +10,53 @@ function Chat() {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
 
+  const socketRef = useRef(null);
+
   const token = localStorage.getItem("token");
-  const decoded = jwtDecode(token);
-  const myId = decoded.id;
+  const decoded = token ? jwtDecode(token) : null;
+  const myId = decoded?.id;
 
-  // Fetch users
-  const fetchUsers = async () => {
-    try {
-      const res = await axios.get(
-        "http://localhost:5000/chat/users",
+  // ================= FETCH USERS =================
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:5000/chat/users",
+          {
+            headers: { Authorization: token },
+          }
+        );
+        setUsers(res.data);
+      } catch (error) {
+        console.log("Error fetching users");
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  // ================= SOCKET CONNECTION =================
+  useEffect(() => {
+    socketRef.current = io("http://localhost:5000");
+
+    socketRef.current.emit("join", myId);
+
+    socketRef.current.on("receiveMessage", (data) => {
+      setMessages((prev) => [
+        ...prev,
         {
-          headers: { Authorization: token },
-        }
-      );
-      setUsers(res.data);
-    } catch (error) {
-      console.log("Error fetching users");
-    }
-  };
+          sender: data.senderId,
+          message: data.message,
+        },
+      ]);
+    });
 
-  // Fetch messages
+    return () => {
+      socketRef.current.disconnect();
+    };
+  }, []);
+
+  // ================= FETCH MESSAGES =================
   const fetchMessages = async (receiverId) => {
     try {
       const res = await axios.get(
@@ -43,10 +71,7 @@ function Chat() {
     }
   };
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
+  // ================= SEND MESSAGE =================
   const handleSend = async () => {
     if (!newMessage.trim() || !selectedUser) return;
 
@@ -62,8 +87,18 @@ function Chat() {
         }
       );
 
+      socketRef.current.emit("sendMessage", {
+        senderId: myId,
+        receiverId: selectedUser._id,
+        message: newMessage,
+      });
+
+      setMessages((prev) => [
+        ...prev,
+        { sender: myId, message: newMessage },
+      ]);
+
       setNewMessage("");
-      fetchMessages(selectedUser._id);
     } catch (error) {
       console.log("Error sending message");
     }
@@ -74,6 +109,7 @@ function Chat() {
       {/* Sidebar */}
       <div className="sidebar">
         <div className="sidebar-header">Chats</div>
+
         {users.map((user) => (
           <div
             key={user._id}
@@ -86,8 +122,9 @@ function Chat() {
             }}
           >
             <div className="avatar">
-             {user?.name ? user.name.charAt(0).toUpperCase() : ""}
+              {user?.name?.charAt(0).toUpperCase()}
             </div>
+
             <div>
               <div className="chat-name">{user.name}</div>
               <div className="chat-email">{user.email}</div>
@@ -96,20 +133,18 @@ function Chat() {
         ))}
       </div>
 
-      {/* Chat Area */}
+      {/* Chat Section */}
       <div className="chat-section">
         {selectedUser ? (
           <>
-            {/* Header */}
             <div className="chat-header">
               {selectedUser.name}
             </div>
 
-            {/* Messages */}
             <div className="messages-area">
-              {messages.map((msg) => (
+              {messages.map((msg, index) => (
                 <div
-                  key={msg._id}
+                  key={index}
                   className={
                     msg.sender === myId
                       ? "message sent"
@@ -120,7 +155,7 @@ function Chat() {
                 </div>
               ))}
             </div>
-            {/* Input */}
+
             <div className="input-area">
               <input
                 type="text"

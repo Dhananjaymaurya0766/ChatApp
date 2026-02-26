@@ -6,6 +6,8 @@ const User = require("./models/User");
 const jwt = require("jsonwebtoken");
 const { auth } = require("./controller/Auth");
 const chatRoutes = require("./Routes/chat");
+const { Server } = require("socket.io");
+const http = require("http");
 
 const SECRET_KEY = process.env.JWT_SECRET;
 require("./config/database").connect();
@@ -90,6 +92,49 @@ app.get("/dashboard", auth, (req, res) => {
         user: req.user
     });
 });
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173", // your frontend port
+    methods: ["GET", "POST"]
+  }
+});
+// Store online users
+const onlineUsers = {};
+
+io.on("connection", (socket) => {
+  console.log("User connected:", socket.id);
+
+  // User joins
+  socket.on("join", (userId) => {
+    onlineUsers[userId] = socket.id;
+    console.log("Online users:", onlineUsers);
+  });
+
+  // Send message event
+  socket.on("sendMessage", ({ senderId, receiverId, message }) => {
+
+    const receiverSocket = onlineUsers[receiverId];
+
+    if (receiverSocket) {
+      io.to(receiverSocket).emit("receiveMessage", {
+        senderId,
+        message
+      });
+    }
+  });
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected:", socket.id);
+
+    // Remove disconnected user
+    for (let userId in onlineUsers) {
+      if (onlineUsers[userId] === socket.id) {
+        delete onlineUsers[userId];
+      }
+    }
+  });
+});
+server.listen(PORT, () => {
+  console.log(`Server running with Socket.io on http://localhost:${PORT}`);
 });
