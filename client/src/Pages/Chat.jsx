@@ -9,12 +9,32 @@ function Chat() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+  const [profile, setProfile] = useState(null);
+  const [showGroupModal, setShowGroupModal] = useState(false);
 
   const socketRef = useRef(null);
 
   const token = localStorage.getItem("token");
   const decoded = token ? jwtDecode(token) : null;
   const myId = decoded?.id;
+
+   useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:5000/profile",
+          {
+            headers: { Authorization: token }
+          }
+        );
+        setProfile(res.data);
+      } catch (err) {
+        console.log("Profile error");
+      }
+    };
+
+    fetchProfile();
+  }, []);
 
   // ================= FETCH USERS =================
   useEffect(() => {
@@ -103,10 +123,30 @@ function Chat() {
       console.log("Error sending message");
     }
   };
+  const handleLogout = () => {
+  localStorage.removeItem("token");
+  window.location.href = "/login";
+  };
 
   return (
     <div className="telegram-container">
-      {/* Sidebar */}
+       <div>
+        <div className="profile-section">
+        <div className="profile-avatar">
+         {profile?.name?.charAt(0).toUpperCase()}
+        </div>
+
+     <div className="profile-info">
+     <div className="profile-name">{profile?.name}</div>
+     <div className="profile-email">{profile?.email}</div>
+     </div>
+     
+      </div>
+       <div>
+        
+       </div>
+       </div>
+     { /* Sidebar */}
       <div className="sidebar">
         <div className="sidebar-header">Chats</div>
 
@@ -172,6 +212,8 @@ function Chat() {
           </div>
         )}
       </div>
+      {/* {Profile Features} */}
+      {/* {showProfile && (console.log("showProfile:", showProfile))}   */}
     </div>
   );
 }

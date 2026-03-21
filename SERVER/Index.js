@@ -85,7 +85,10 @@ app.post("/login", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-
+app.get("/profile", auth, async (req, res) => {
+  const user = await User.findById(req.user.id).select("-password");
+  res.json(user);
+});
 app.get("/dashboard", auth, (req, res) => {
     res.json({
         message: "Welcome to Dashboard",
