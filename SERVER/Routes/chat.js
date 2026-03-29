@@ -3,18 +3,30 @@ const router = express.Router();
 const Message = require("../models/Message");
 const { auth } = require("../controller/Auth");
 const User = require("../models/User");
+const upload = require("../middleware/upload");
 
 //Send Message
-router.post("/send", auth, async (req, res) => {
-  try {
-    const { receiverId, message } = req.body;
 
+router.post("/send", auth ,upload.single("media"), async (req, res) => {
+  try {
+
+    console.log("BODY:", req.body);
+    console.log("FILE:", req.file);
+    const { receiverId, message } = req.body;
+    // if(!message && !req.file){
+    //   return res.status(400).json({
+    //     message: "Message or media required"
+    //   });
+    // }
+    if (!receiverId) {
+      return res.status(400).json({ message: "Receiver ID missing" });
+    }
     const newMessage = await Message.create({
       sender: req.user.id,
       receiver: receiverId,
-      message,
+      message: message || "",
+      media: req.file ? req.file.filename : null
     });
-
     res.status(200).json(newMessage);
   } catch (error) {
     res.status(500).json({ message: "Error sending message" });

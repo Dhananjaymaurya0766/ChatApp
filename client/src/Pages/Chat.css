@@ -61,18 +61,96 @@
   padding: 12px;
   border-bottom: 1px solid #ccc;
 }
+.profile-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+
+  z-index: 999;
+}
+.profile-card {
+  width: 320px;
+  padding: 25px;
+  border-radius: 12px;
+
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+
+  text-align: center;
+  position: relative;
+}
+
+.profile-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.profile-section:hover {
+  background: #f5f5f5;
+}
+
+.profile-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.profile-section:hover {
+  background: #f5f5f5;
+}
+.file-btn {
+  cursor: pointer;
+  font-size: 20px;
+  margin-right: 10px;
+}
 .profile-avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
+
   background: #4f46e5;
   color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: bold;
+}
+.profile-avatar-large {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+
+  background: linear-gradient(135deg, #4f46e5, #3b82f6);
+  color: white;
+
   display: flex;
   justify-content: center;
   align-items: center;
+
+  font-size: 30px;
   font-weight: bold;
-  margin-right: 10px;
+
+  margin: 0 auto 15px;
 }
 
 .profile-info {
@@ -89,19 +167,20 @@
   color: gray;
 }
 .profile-actions {
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 15px;
 }
 
 .group-btn {
   padding: 10px;
+  border-radius: 6px;
+  border: none;
   background: #2563eb;
   color: white;
-  border: none;
-  border-radius: 5px;
   cursor: pointer;
+  transition: 0.2s;
 }
 
 .group-btn:hover {
@@ -110,11 +189,16 @@
 
 .logout-btn {
   padding: 10px;
-  background: red;
-  color: white;
+  border-radius: 6px;
   border: none;
-  border-radius: 5px;
+  background: #ef4444;
+  color: white;
   cursor: pointer;
+  transition: 0.2s;
+}
+
+.logout-btn:hover {
+  background: #dc2626;
 }
 
 .group-input {
@@ -154,6 +238,12 @@
   margin-bottom: 10px;
   max-width: 60%;
   font-size: 14px;
+}
+.chat-image {
+  width: 150px;
+  max-width: 100%;
+  border-radius: 10px;
+  margin-top: 5px;
 }
 
 .sent {

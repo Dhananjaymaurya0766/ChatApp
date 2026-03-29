@@ -9,6 +9,7 @@ const chatRoutes = require("./Routes/chat");
 const { Server } = require("socket.io");
 const http = require("http");
 
+
 const SECRET_KEY = process.env.JWT_SECRET;
 require("./config/database").connect();
 
@@ -19,7 +20,7 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 app.use("/chat", chatRoutes);
-
+app.use("/uploads", express.static("uploads"));
 // Test route
 app.get("/", (req, res) => {
   res.send("Server is working");
