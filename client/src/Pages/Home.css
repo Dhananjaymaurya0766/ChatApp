@@ -1,63 +1,113 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+/* Background */
 .home-container {
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #2563eb, #1e3a8a);
-  font-family: Arial, sans-serif;
+
+  background: linear-gradient(135deg, #4f46e5, #3b82f6);
 }
 
+/* Card */
 .home-card {
-  background: white;
-  padding: 50px;
-  border-radius: 16px;
+  width: 360px;
+  padding: 40px;
+  border-radius: 20px;
   text-align: center;
-  width: 400px;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(15px);
+
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+  color: #fff;
+
+  animation: fadeIn 0.6s ease-in-out;
+  transition: transform 0.3s ease;
 }
 
-.home-card h1 {
+.home-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Logo */
+.logo {
+  font-size: 32px;
   margin-bottom: 10px;
-  color: #1e293b;
+}
+
+/* Text */
+.home-card h1 {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 10px;
 }
 
 .home-card p {
+  font-size: 14px;
+  opacity: 0.85;
   margin-bottom: 30px;
-  color: #475569;
 }
 
+/* Buttons */
 .home-buttons {
   display: flex;
   justify-content: space-between;
-  gap: 15px;
+  gap: 10px;
 }
 
-.login-btn {
-  flex: 1;
+.link {
+  width: 100%;
+}
+
+.btn {
+  width: 100%;
   padding: 12px;
+  border-radius: 12px;
   border: none;
-  background: #1e293b;
-  color: white;
-  border-radius: 8px;
+  font-weight: 500;
   cursor: pointer;
-  transition: 0.3s;
+  transition: all 0.3s ease;
+}
+
+/* Login Button */
+.login-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
 }
 
 .login-btn:hover {
-  background: #0f172a;
+  background: rgba(255, 255, 255, 0.35);
 }
 
+/* Signup Button */
 .signup-btn {
-  flex: 1;
-  padding: 12px;
-  border: none;
-  background: #2563eb;
-  color: white;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
+  background: white;
+  color: #3b82f6;
 }
 
 .signup-btn:hover {
-  background: #1d4ed8;
+  background: #e0e7ff;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
