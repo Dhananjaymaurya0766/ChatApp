@@ -25,7 +25,7 @@ function Chat() {
     const fetchProfile = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5000/profile",
+          "https://chatapp-vxkf.onrender.com/profile",
           {
             headers: { Authorization: token }
           }
@@ -39,12 +39,12 @@ function Chat() {
     fetchProfile();
   }, []);
 
-  // ================= FETCH USERS =================
+  //  FETCH USERS 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5000/chat/users",
+          "https://chatapp-vxkf.onrender.com/chat/users",
           {
             headers: { Authorization: token },
           }
@@ -58,9 +58,9 @@ function Chat() {
     fetchUsers();
   }, []);
 
-  // ================= SOCKET CONNECTION =================
+  // SOCKET CONNECTION
   useEffect(() => {
-    socketRef.current = io("http://localhost:5000");
+    socketRef.current = io("https://chatapp-vxkf.onrender.com");
 
     socketRef.current.emit("join", myId);
 
@@ -83,7 +83,7 @@ function Chat() {
   const fetchMessages = async (receiverId) => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/chat/${receiverId}`,
+        `https://chatapp-vxkf.onrender.com/chat/${receiverId}`,
         {
           headers: { Authorization: token },
         }
@@ -94,7 +94,7 @@ function Chat() {
     }
   };
 
-  // ================= SEND MESSAGE =================
+  // SEND MESSAGE
   const handleSend = async () => {
   if (!selectedUser) return;
 
@@ -109,7 +109,7 @@ function Chat() {
 
   try {
     const res = await axios.post(
-      "http://localhost:5000/chat/send",
+      "https://chatapp-vxkf.onrender.com/chat/send",
       formData,
       {
         headers: {
@@ -119,7 +119,7 @@ function Chat() {
       }
     );
 
-    // 🔥 socket (optional real-time)
+    // socket (optional real-time)
     socketRef.current.emit("sendMessage", {
       senderId: myId,
       receiverId: selectedUser._id,
@@ -133,7 +133,7 @@ function Chat() {
       res.data,]);
 
     setNewMessage("");
-    setFile(null); // ✅ clear file
+    setFile(null); //  clear file
 
   } catch (error) {
     console.log("Error sending message", error);
@@ -218,7 +218,7 @@ function Chat() {
 
       {msg.media && (
         <img
-          src={`http://localhost:5000/uploads/${msg.media}`}
+          src={`https://chatapp-vxkf.onrender.com/uploads/${msg.media}`}
           alt="media"
           className="chat-image"
         />

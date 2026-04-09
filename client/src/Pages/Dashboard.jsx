@@ -16,7 +16,7 @@ function Dashboard() {
     }
 
     axios
-      .get("http://localhost:5000/dashboard", {
+      .get("https://chatapp-vxkf.onrender.com/dashboard", {
         headers: {
           Authorization: token,
         },

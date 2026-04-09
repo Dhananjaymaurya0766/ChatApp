@@ -18,7 +18,7 @@ function Login() {
 
   try {
     const res = await axios.post(
-      "http://localhost:5000/login",
+      "https://chatapp-vxkf.onrender.com/login",
       {
         email: form.email,
         password: form.password

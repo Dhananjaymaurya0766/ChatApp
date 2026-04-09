@@ -18,7 +18,7 @@ function Signup() {
 
   try {
     const res = await axios.post(
-      "http://localhost:5000/register",
+      "https://chatapp-vxkf.onrender.com/register",
       {
         name: form.name,
         email: form.email,
