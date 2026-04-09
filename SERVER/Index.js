@@ -99,7 +99,8 @@ app.get("/dashboard", auth, (req, res) => {
 const server = http.createServer(app);
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://your-frontend.vercel.app"
+  "https://your-frontend.vercel.app",
+  "https://wechatus.in"
   ];
 const io = new Server(server, {
   
