@@ -63,15 +63,6 @@ function Login() {
             onChange={handleChange}
           />
 
-          <div className="checkbox-row">
-            <input
-              type="checkbox"
-              name="subscribe"
-              onChange={handleChange}
-            />
-            <span>I want to receive updates via email.</span>
-          </div>
-
           <button type="submit" className="signup-btn">
             Log in
           </button>
